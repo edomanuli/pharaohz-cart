@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+    <h1>Welcome To Pharoahz</h1>
+    <div class="container product-list">
+        <div class="row justify-content-center align-items-center g-2">
+            <div class="col card-template">
+                <div class="card" style="width: 18rem;">
+                    <img src="/static/images/placeholderimage.jpg" class="card-img-top" alt="Product Image" id="product-image">
+                    <div class="card-body">
+                        <h5 class="card-title" id="product-name">Card title</h5>
+                        <p class="card-text">Price: $</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                      <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-container">
+        
+    </div>
+
+    <script>
+        const apiBaseUrl = "{{ url_for('api_products') }}";
+    </script>
+    <script 
+        type="text/javascript" 
+        src="{{ url_for('static', filename='shopping-cart.js') }}">
+    </script>
+    
+{% endblock content %}

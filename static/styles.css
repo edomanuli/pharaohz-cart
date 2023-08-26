@@ -1,0 +1,38 @@
+.navbar {
+    background-color: #7532f9;
+    color: white;
+}
+
+.nav-link {
+    color: white;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.btn-outline-success {
+    color: white;
+}
+
+.btn-primary {
+    background-color: #7532f9;
+}
+
+.card-template {
+    display: none;
+}
+
+#product-image {
+    width: 100%;
+    height: auto;
+}
+
+/* .material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+} */
+
