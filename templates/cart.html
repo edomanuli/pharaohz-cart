@@ -1,6 +1,50 @@
 {% extends 'layout.html' %}
 
-
 {% block content %}
-    <h1>Your Shopping Cart</h1>
+<div class="container mt-3" id="cart-products">
+    <h2>Shopping Cart</h2>
+    
+    <div class="row mt-5" id="cart-items">
+        {% if cart %}
+            {% for cart_item in session['cart'] %}
+                <div class="col-8 d-flex product-card">
+                    <!-- Checkbox added here -->
+                    <div class="align-self-center m-4">
+                        <input type="checkbox" name="selectedItems" value="product1Id" style="transform: scale(1.5);" id="check-box">
+                    </div>
+                    
+                    <img src="{{ cart_item.product.images[0] }}" class="card card-img-top" id="product-image" alt="Product Image" style="width: 18rem;">
+                    <div class="align-self-center m-3">
+                        <h5 class="card-title" id="product-name">{{ cart_item.product.title }}</h5>
+                        <p class="card-text">
+                            Price: <span id="product-price">${{ cart_item.product.price }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="d-flex justify-content-end pt-5 mt-5">
+                        <button class="btn btn-secondary btn-sm" id="decrease">-</button>
+                        <span class="mx-3" id="quantity">{{ cart_item.quantity }}</span>
+                        <button class="btn btn-secondary btn-sm" id="increase">+</button>
+                        <!-- Delete button added here -->
+                        <button class="btn btn-danger btn-sm ml-3" id="deleteItem" tool data-cart-item-id="{{ cart_item.id }}">🗑️</button>
+                    </div>
+                    <div class="d-flex justify-content-end pt-2">
+                        <p class="item-total">Total: <span id="total">${{ cart_item.quantity * cart_item.product.price }}</span></p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+                <p>Your cart is empty</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const apiBaseUrl = "{{ url_for('api_products') }}";
+</script>
+<script 
+    type="text/javascript" 
+    src="{{ url_for('static', filename='shopping-cart.js') }}">
+</script>
 {% endblock content %}

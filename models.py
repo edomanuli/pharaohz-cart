@@ -1,60 +1,96 @@
 """Create a database model"""
 from datetime import datetime
-from server import db
+from flask_sqlalchemy import SQLAlchemy
+import psycopg2
 
-class Users(db.Model):
+db = SQLAlchemy()
+
+class User(db.Model):
     """Create users table to hold data"""
-    user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
+    first_name = db.Column(db.String(20), unique=False, nullable=False)
+    last_name = db.Column(db.String(20), unique=False, nullable=False)
+    username = db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(16), unique=False, nullable=False)
-    cart = db.relationship('Carts', backref='user', lazy='dynamic')
-    orders = db.relationship('Orders', backref='user', lazy='dynamic')
+    image_file = db.Column(db.String(20), nullable=False, default='static/images/profile-placeholder.jpg')
+    password = db.Column(db.String(60), unique=False, nullable=False)
+    cart = db.relationship('Cart', backref='user_cart', lazy='dynamic')
+    order = db.relationship('Order', back_populates='user', lazy='dynamic')
     
     def __repr__(self):
-        return f"<User(user_id={self.user_id}, username={self.username}, email={self.email})>"
+        return f"<User(user_id={self.user_id}, username={self.username}, first_name={self.first_name}, last_name={self.last_name} email={self.email}, password={self.password})>"
     
-class Products(db.Model):
+class Product(db.Model):
     """create products table"""
-    product_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
+    id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     price = db.Column(db.Float, nullable=False)
     stock_quantity = db.Column(db.Integer)
-    cart_items = db.relationship('CartItems', back_populates='product')
+    thumbnail = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(100))
+    cart_item = db.relationship('CartItem', back_populates='product', lazy=True)
     
     def __repr__(self):
-        return f"<Product(product_id={self.product_id}, title={self.title}, price={self.price})>"
+        return f"<Product(product_id={self.id}, title={self.title}, price={self.price})>"
     
-class Carts(db.Model):
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'price': self.price,
+            'stock_quantity': self.stock_quantity,
+            'thumbnail': self.thumbnail,
+            'category': self.category
+        }
+    
+class Cart(db.Model):
     """Cart table to hold product collection"""
-    cart_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    created_at = db.Column(db.DateTime, default=func.now)
-    user = db.relationship('Users', back_populates='cart')
-    cart_items = db.relationship('CartItems', back_populates='cart')
+    cart_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    cart_item = db.relationship('CartItem', back_populates='cart', lazy=True)
     
     def __repr__(self):
         return f"<Cart(cart_id={self.cart_id}, user_id={self.user_id}, created_at={self.created_at})>"
     
-class CartItems(db.Model):
+class CartItem(db.Model):
     """Cart Items table to hold cart item info"""
     item_id = db.Column(db.Integer, primary_key=True)
-    cart_id = db.Column(db.Integer, db.ForeignKey('carts.cart_id'))
-    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
+    cart_id = db.Column(db.Integer, db.ForeignKey('cart.cart_id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     quantity = db.Column(db.Integer)
-    cart = db.relationship('Carts', back_populates='cart_items')
-    product = db.relationship('Products', back_populates='cart_items')
+    cart = db.relationship('Cart', back_populates='cart_item', lazy=True)
+    product = db.relationship('Product', back_populates='cart_item', lazy=True)
     
     def __repr__(self):
         return f"<CartItem(item_id={self.item_id}, cart_id={self.cart_id}, product_id={self.product_id}, quantity={self.quantity})>"
     
-class Orders(db.Model):
+class Order(db.Model):
+    """Orders table"""
     order_id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     order_date = db.Column(db.DateTime, default=datetime.utcnow)
     total_amount = db.Column(db.Float)
-    user = db.relationship('Users', back_populates='orders')
+    user = db.relationship('User', back_populates='order', lazy=True)
     
     def __repr__(self):
         return f"<Order(order_id={self.order_id}, user_id={self.user_id}, order_date={self.order_date}, total_amount={self.total_amount})>"
+
+
+def connect_to_db(app):
+    """Creating the postgres database"""
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cart'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ECHO'] = True
+
+    db.app = app
+    db.init_app(app)
+
+    print('Connected to database!')
+    
+if __name__ == '__main__':
+    from server import app
+
+    connect_to_db(app)

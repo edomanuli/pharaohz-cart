@@ -2,8 +2,11 @@ blinker==1.6.2
 certifi==2023.7.22
 charset-normalizer==3.2.0
 click==8.1.7
+dnspython==2.4.2
+email-validator==2.0.0.post2
 Flask==2.3.2
 Flask-SQLAlchemy==3.0.5
+Flask-WTF==1.1.1
 greenlet==2.0.2
 idna==3.4
 itsdangerous==2.1.2

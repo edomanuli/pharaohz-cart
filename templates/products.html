@@ -3,33 +3,45 @@
 
 {% block content %}
     <h1>Welcome To Pharoahz</h1>
-    <div class="container product-list">
-        <div class="row justify-content-center align-items-center g-2">
-            <div class="col card-template">
-                <div class="card" style="width: 18rem;">
-                    <img src="/static/images/placeholderimage.jpg" class="card-img-top" alt="Product Image" id="product-image">
-                    <div class="card-body">
-                        <h5 class="card-title" id="product-name">Card title</h5>
-                        <p class="card-text">Price: $</p>
-                        <a href="#" class="btn btn-primary">View Details</a>
-                      <a href="#" class="btn btn-primary">Add to Cart</a>
+    {% if products %}
+        {% for product in products %}
+            <div class="container product-list">
+                <div class="row justify-content-center align-items-center g-2">
+                    <div class="col card-template">
+                        <div class="card" style="width: 18rem;">
+                            <img src="{{ product.thumbnail }}" class="card-img-top product-image" alt="{{ product.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title product-name">{{ product.title }}</h5>
+                                <p class="card-text">Price: ${{ product.price }}</p>
+                                <a href='#' class="btn btn-primary detailsButton" data-product-id="{{ product.id }}">View Details</a>
+                                <a href="#" class="btn btn-primary add-to-cart-btn" data-product-id="{{ product.id }}">Add to Cart</a>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
+    {% else %}
+        <p>No products available at the moment.</p>
+    {% endif %}
+    
+    <div class="dialog-container">
+        <dialog>
+            <img src="#" alt="Product Image" id="product-image">
+            <div class="dialog-body">
+                <h2>Title: </h2>
+                <h3>Price: </h3>
+                <h4>Stock Quantity: </h4>
+                <p>Product Description: </p>
+            </div>
+            <form method="dialog">
+                <button type="submit" class="button btn btn-primary">Close</button>
+            </form>
+        </dialog>
     </div>
-
-    <div class="popup-container">
-        
-    </div>
-
-    <script>
-        const apiBaseUrl = "{{ url_for('api_products') }}";
-    </script>
-    <script 
-        type="text/javascript" 
-        src="{{ url_for('static', filename='shopping-cart.js') }}">
-    </script>
+    
+    
+    
     
 {% endblock content %}
+

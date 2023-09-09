@@ -19,20 +19,39 @@
     background-color: #7532f9;
 }
 
-.card-template {
-    display: none;
-}
-
 #product-image {
     width: 100%;
     height: auto;
 }
 
-/* .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+.dialog-container {
+    width: 50%;   /* Set the width to 50% of the screen */
+    margin: auto; /* Center the container horizontally */
+    height: 100vh; /* Set height to 100% of the viewport height */
+    display: flex; /* Use flex to center the dialog vertically */
+    justify-content: center;
+    align-items: center;
+
+    dialog {
+        max-width: 100%; /* Ensure the dialog doesn't overflow the container */
+        width: auto;     /* Let the dialog adjust its width based on content */
+        max-height: 90%; /* Leave some padding around the dialog */
+        overflow: auto;  /* Allow scroll if the content overflows */
+    }
+}
+
+/* div#cart-holder.container {
+    #title {
+        margin-right: 50px;
+    }
 } */
+
+#product-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;   /* Or any desired width */
+    height: 250px;  /* Or any desired height */
+    object-fit: cover;  /* To maintain the aspect ratio */
+}
 
