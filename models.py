@@ -1,24 +1,31 @@
 """Create a database model"""
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin
 import psycopg2
 
 db = SQLAlchemy()
 
-class User(db.Model):
+
+class User(db.Model, UserMixin):
     """Create users table to hold data"""
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
     first_name = db.Column(db.String(20), unique=False, nullable=False)
     last_name = db.Column(db.String(20), unique=False, nullable=False)
     username = db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='static/images/profile-placeholder.jpg')
-    password = db.Column(db.String(60), unique=False, nullable=False)
+    image_file = db.Column(db.String(256), nullable=False, default='default.jpg')
+    password = db.Column(db.String(256), unique=False, nullable=False)
     cart = db.relationship('Cart', backref='user_cart', lazy='dynamic')
     order = db.relationship('Order', back_populates='user', lazy='dynamic')
     
     def __repr__(self):
-        return f"<User(user_id={self.user_id}, username={self.username}, first_name={self.first_name}, last_name={self.last_name} email={self.email}, password={self.password})>"
+        return f"<User(user_id={self.user_id}, first_name={self.first_name}, last_name={self.last_name}, username={self.username}, email={self.email}, password={self.password})>"
+    
+    def get_id(self):
+        return str(self.user_id)  # Assuming the user's identifier is stored as an integer
+
+    
     
 class Product(db.Model):
     """create products table"""
