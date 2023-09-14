@@ -3,11 +3,11 @@
 
 {% block content %}
     <h1>Welcome To Pharoahz</h1>
-    {% if products %}
-        {% for product in products %}
-            <div class="container product-list">
-                <div class="row justify-content-center align-items-center g-2">
-                    <div class="col card-template">
+    <div class="container product-list">
+        {% if products %}
+            <div class="row justify-content-center align-items-center g-2">
+                {% for product in products %}
+                    <div class="col-md-3 card-template">
                         <div class="card" style="width: 18rem;">
                             <img src="{{ product.thumbnail }}" class="card-img-top product-image" alt="{{ product.title }}">
                             <div class="card-body">
@@ -18,12 +18,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No products available at the moment.</p>
-    {% endif %}
+                {% endfor %}
+            </div>    
+        {% else %}
+            <p>No products available at the moment.</p>
+        {% endif %}
+    </div>            
+        
     
     <div class="dialog-container">
         <dialog>
