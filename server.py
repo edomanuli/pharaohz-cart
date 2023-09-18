@@ -171,52 +171,76 @@ def products():
 @app.route('/add-to-cart', methods=["POST"])
 def add_to_cart():
     """Add to Cart"""
-    if request.method == 'POST':
-        # Get product_id from the request json
-        product_id = request.json.get('product_id')
-        print(product_id)
+    if not current_user.is_authenticated:
+        return jsonify({"message": "Please log in to add items to cart."}), 403
+    
+    product_id = request.json.get('product_id')
+    product = Product.query.get(product_id)
+    
+    if not product:
+        return jsonify({"message": "Product not found."}), 404
+    
+    # Check if user already has a cart, if not, create one
+    user_cart = Cart.query.filter_by(user_id=current_user.user_id).first()
+    if not user_cart:
+        user_cart = Cart(user_id=current_user.user_id)
+        db.session.add(user_cart)
         
-        # fetch product details from the API
-        api_url = f'https://dummyjson.com/products/{product_id}'
-        response = requests.get(api_url)
-        
-        if response.status_code == 200:
-            product_data = response.json()
-            
-            # create a new cart item based on the product details
-            new_cart_item = CartItem(
-                product_id=product_data['id'],
-                quantity=1
-            )
-            
-            db.session.add(new_cart_item)
-            # db.session.commit()
-            print(new_cart_item)
-            # Add cart item to user's cart
-            # user_id = Users.user_id
-            # user = Users.query.get(user_id)
-            
-            # if user:
-            #     user.cart.cart_items.append(new_cart_item)
-            #     db.session.commit()
-            
-            # Add item to cart
-            # session['cart'].append(new_cart_item)
-            return jsonify({"message": "Product added to cart"})
-        else:
-            return jsonify({"message": "Failed to fetch product data"}), 500
+    # Check if product is already in the cart
+    cart_item = CartItem.query.filter_by(cart_id=user_cart.cart_id, product_id=product_id).first()
+    if cart_item:
+        # Increase quantity if the product is already in the cart
+        cart_item.quantity += 1
     else:
-        return jsonify({"message": "Invalid request method"}), 405
+        # Add a new item to the cart
+        new_cart_item = CartItem(cart_id=user_cart.cart_id, product_id=product_id, quantity=1)
+        db.session.add(new_cart_item)
+        
+    db.session.commit()
+    
+    return jsonify({"message": "Product added to cart."})
 
   
-@app.route('/cart')
+@app.route('/view_cart')
 def view_cart():
-    """render login page"""
-    # retrieve the list of items in the card from the cart items table,  cart = [the list]
-    # start with a list of products
-    # then update to a key-value (dictionary) where key is the product, and the value is the count of that product
-    # also need to compute the total price of items in the cart
-    return render_template('cart.html', title='Cart')
+    """render cart page"""
+    if not current_user.is_authenticated:
+        return jsonify({"message": " Please log in to view cart."}), 403
+    
+    # Fetch user's cart items
+    user_cart = Cart.query.filter_by(user_id=current_user.user_id).first()
+    if not user_cart:
+        return jsonify({"message": "Your cart is empty.", "items": []})
+    
+    cart_items = CartItem.query.filter_by(cart_id=user_cart.cart_id).all()
+    # Convert cart items to a list of dictionaries to return as JSON
+    items_list = [item.to_dict() for item in cart_items]
+    
+    return jsonify(items_list)
+
+# @app.route('/cart_render')
+# @login_required
+# def render_cart():
+#     """Serving items in cart"""
+    
+#     user_cart = Cart.query.filter_by(user_id=current_user.user_id).first()
+#     if not user_cart:
+#         cart_items = []
+#         return jsonify({"message": "Your cart is empty."})
+#     else:
+#         cart_items = CartItem.query.filter_by(cart_id=user_cart.cart_id).all()
+
+#     return render_template('cart.html', cart_items=cart_items)
+
+@app.route('/cart')
+def cart_page():
+    """Render cart page template."""
+    if not current_user.is_authenticated:
+        return "Please log in to view cart.", 403
+
+    return render_template('cart.html')
+
+
     
 if __name__ == '__main__':
     connect_to_db(app)

@@ -20,11 +20,6 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous" defer>
     </script>
-    <!-- Add JavaScript libraries here -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/react-router-dom@5.2.0/umd/react-router-dom.js"></script>
   </head>
   <body>
 
@@ -85,7 +80,7 @@
                 </button>
                 
               </form>
-              <a class="navbar-brand me-2" href="{{ url_for('view_cart') }}" id="Shopping">👜</a>
+              <a class="navbar-brand me-2" href="{{ url_for('cart_page') }}" id="Shopping">👜</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -111,7 +106,7 @@
     <footer>
         <!--Footer here-->
     </footer>
-    </div>
-    <script src="/static/js/App.jsx" type="text/jsx"></script>
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+
   </body>
 </html>

@@ -36,7 +36,7 @@ class Product(db.Model):
     stock_quantity = db.Column(db.Integer)
     thumbnail = db.Column(db.String(200), nullable=False)
     category = db.Column(db.String(100))
-    cart_item = db.relationship('CartItem', back_populates='product', lazy=True)
+    cart_items = db.relationship('CartItem', back_populates='product', lazy=True)
     
     def __repr__(self):
         return f"<Product(product_id={self.id}, title={self.title}, price={self.price})>"
@@ -57,7 +57,7 @@ class Cart(db.Model):
     cart_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    cart_item = db.relationship('CartItem', back_populates='cart', lazy=True)
+    cart_items = db.relationship('CartItem', back_populates='cart', lazy=True)
     
     def __repr__(self):
         return f"<Cart(cart_id={self.cart_id}, user_id={self.user_id}, created_at={self.created_at})>"
@@ -68,11 +68,24 @@ class CartItem(db.Model):
     cart_id = db.Column(db.Integer, db.ForeignKey('cart.cart_id'))
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     quantity = db.Column(db.Integer)
-    cart = db.relationship('Cart', back_populates='cart_item', lazy=True)
-    product = db.relationship('Product', back_populates='cart_item', lazy=True)
+    
+    cart = db.relationship('Cart', back_populates='cart_items', lazy=True)
+    product = db.relationship('Product', back_populates='cart_items', lazy=True)
     
     def __repr__(self):
         return f"<CartItem(item_id={self.item_id}, cart_id={self.cart_id}, product_id={self.product_id}, quantity={self.quantity})>"
+    
+    def to_dict(self):
+        return {
+            "id": self.item_id,
+            "product_id": self.product_id,
+            "quantity": self.quantity,
+            "product": {
+                "title": self.product.title,
+                "price": self.product.price,
+                "thumbnail": self.product.thumbnail
+            }
+        }
     
 class Order(db.Model):
     """Orders table"""
