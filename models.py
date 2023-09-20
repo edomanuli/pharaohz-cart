@@ -9,15 +9,15 @@ db = SQLAlchemy()
 
 class User(db.Model, UserMixin):
     """Create users table to hold data"""
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False, unique=True)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     first_name = db.Column(db.String(20), unique=False, nullable=False)
     last_name = db.Column(db.String(20), unique=False, nullable=False)
     username = db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     image_file = db.Column(db.String(256), nullable=False, default='default.jpg')
     password = db.Column(db.String(256), unique=False, nullable=False)
-    cart = db.relationship('Cart', backref='user_cart', lazy='dynamic')
-    order = db.relationship('Order', back_populates='user', lazy='dynamic')
+    cart = db.relationship('Cart', backref='user_cart', lazy='dynamic', cascade="all, delete-orphan")
+    order = db.relationship('Order', back_populates='user', lazy='dynamic', cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<User(user_id={self.user_id}, first_name={self.first_name}, last_name={self.last_name}, username={self.username}, email={self.email}, password={self.password})>"
@@ -36,7 +36,7 @@ class Product(db.Model):
     stock_quantity = db.Column(db.Integer)
     thumbnail = db.Column(db.String(200), nullable=False)
     category = db.Column(db.String(100))
-    cart_items = db.relationship('CartItem', back_populates='product', lazy=True)
+    cart_items = db.relationship('CartItem', back_populates='product', lazy=True, cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<Product(product_id={self.id}, title={self.title}, price={self.price})>"
@@ -57,14 +57,14 @@ class Cart(db.Model):
     cart_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    cart_items = db.relationship('CartItem', back_populates='cart', lazy=True)
+    cart_items = db.relationship('CartItem', back_populates='cart', lazy=True, cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<Cart(cart_id={self.cart_id}, user_id={self.user_id}, created_at={self.created_at})>"
     
 class CartItem(db.Model):
     """Cart Items table to hold cart item info"""
-    item_id = db.Column(db.Integer, primary_key=True)
+    item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cart_id = db.Column(db.Integer, db.ForeignKey('cart.cart_id'))
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     quantity = db.Column(db.Integer)

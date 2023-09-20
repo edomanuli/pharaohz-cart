@@ -218,19 +218,6 @@ def view_cart():
     
     return jsonify(items_list)
 
-# @app.route('/cart_render')
-# @login_required
-# def render_cart():
-#     """Serving items in cart"""
-    
-#     user_cart = Cart.query.filter_by(user_id=current_user.user_id).first()
-#     if not user_cart:
-#         cart_items = []
-#         return jsonify({"message": "Your cart is empty."})
-#     else:
-#         cart_items = CartItem.query.filter_by(cart_id=user_cart.cart_id).all()
-
-#     return render_template('cart.html', cart_items=cart_items)
 
 @app.route('/cart')
 def cart_page():
@@ -239,6 +226,31 @@ def cart_page():
         return "Please log in to view cart.", 403
 
     return render_template('cart.html')
+
+@app.route('/delete_items', methods=["POST"])
+@login_required
+def delete_items():
+    """Route to delete selected items"""
+    if not current_user.is_authenticated:
+        return jsonify({"message": "Please log in to remove items."}), 403
+    
+    product_ids = request.json.get('product_ids', [None])
+    
+    if isinstance(product_ids, int):
+        product_ids = [product_ids]
+        
+    if not product_ids or not isinstance(product_ids, list):
+        return jsonify({"message": "No items selected for deletion."}), 400
+    
+    # fetch the user's cart
+    user_cart = Cart.query.filter_by(user_id=current_user.user_id).first()
+    
+    # Delete the selected cart items
+    CartItem.query.filter(CartItem.cart_id == user_cart.cart_id, CartItem.product_id.in_(product_ids)).delete(synchronize_session=False)
+    
+    db.session.commit()
+    
+    return jsonify({"message": "Items deleted successfully."})
 
 
     

@@ -9,6 +9,86 @@ const loadCartItems = () => {
                 return;
             }
 
+            const selectCheckbox = document.createElement("input");
+            selectCheckbox.setAttribute("type", "checkbox");
+            selectCheckbox.setAttribute("id", "select-all");
+            selectCheckbox.setAttribute("name", "select-all");
+            selectCheckbox.setAttribute("value", "select-all-checkbox");
+            cartContainer.appendChild(selectCheckbox);
+
+            const selectCheckboxLabel = document.createElement("label");
+            selectCheckboxLabel.setAttribute("for", "select-all");
+            selectCheckboxLabel.textContent = "Select All";
+            cartContainer.appendChild(selectCheckboxLabel);
+
+            const deleteAll = document.createElement("button");
+            deleteAll.classList.add("delete-selected-items");
+            deleteAll.textContent = "Delete All";
+            deleteAll.addEventListener('click', () => {
+                // query selected items
+                const allSelectedCheckboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+                console.log("Total checkboxes:", document.querySelectorAll('input[name="selectedItems"]').length);
+                console.log("Checked checkboxes:", allSelectedCheckboxes.length);
+
+                let itemsToDelete = [];
+
+                allSelectedCheckboxes.forEach(checkbox => {
+                    console.log(checkbox.value);
+                    if (checkbox.value && checkbox.value !== 'undefined') {
+                        itemsToDelete.push(checkbox.value);
+                    }
+                });
+
+                console.log("Items to delete:", itemsToDelete)
+                if (itemsToDelete.length === 0) {
+                    alert('Please select items to delete.');
+                    return;
+                }
+                
+
+                fetch('/delete_items', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ product_ids: itemsToDelete })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message && data.message === "Items deleted successfully.") {
+                            allSelectedCheckboxes.forEach(checkbox => {
+                                // remove the container for the deleted items
+                                const removeElement = checkbox.closest('div');
+                                cartContainer.removeChild(removeElement);
+                                // TODO: clear out the total value in the cart
+                            });
+                            alert(data.message);
+                        } else {
+                            alert(`Failed to delete items: ${data.message}`)
+                        }
+                
+                    })
+                    .catch(error => console.error(`Error during deletion: ${error}`));
+            });
+            cartContainer.appendChild(deleteAll);
+
+            const checkOut = document.createElement("button");
+            checkOut.classList.add("checkout-selected-items");
+            checkOut.textContent = "Checkout";
+            checkOut.addEventListener('click', () => {
+
+            })
+            cartContainer.appendChild(checkOut);
+
+            // Event listener for selectAll checkbox
+            selectCheckbox.addEventListener('change', () => {
+                const itemCheckboxes = document.querySelectorAll('input[name="selectedItems"]');
+                itemCheckboxes.forEach(checkbox => {
+                    checkbox.checked = selectCheckbox.checked;
+                });
+            });
+
+
 
             let total = 0;
 
@@ -19,8 +99,17 @@ const loadCartItems = () => {
                 allPrices.forEach(priceElement => {
                     total += parseFloat(priceElement.textContent.replace('Price Total: $', ''));
                 });
-                totalPrice.textContent = "Total: $" + total.toFixed(2);
+                totalPrice.textContent = "Cart Total: $" + total.toFixed(2);
             }
+
+            // const cartTotal = () => {
+            //     const cartPrice = document.querySelectorAll('p.cart-total-price'); // Using class for item totals
+            //     total = 0;
+            //     cartPrice.forEach(priceElement => {
+            //         total += parseFloat(priceElement.textContent.replace('Cart Total: $', ''));
+            //     });
+            //     totalPrice.textContent = "Cart Total: $" + total.toFixed(2);
+            // }
 
             data.forEach(item => {
                 // create a div for each item
@@ -30,7 +119,8 @@ const loadCartItems = () => {
                 const checkbox = document.createElement("input");
                 checkbox.setAttribute("type", "checkbox");
                 checkbox.setAttribute("name", "selectedItems");
-                checkbox.setAttribute("value", item.product.id);
+                checkbox.setAttribute("value", item.product_id);
+
                 itemDiv.appendChild(checkbox);
 
                 const title = document.createElement("h4");
@@ -88,12 +178,12 @@ const loadCartItems = () => {
             });
 
             const totalPrice = document.createElement('p')
-            totalPrice.setAttribute("id", "total-price");
+            totalPrice.setAttribute("id", "cart-total-price");
             totalPrice.textContent = "Cart Total: $" + total.toFixed(2);
             cartContainer.appendChild(totalPrice);
 
             updateTotal();
-
+            // cartTotal()
             
         })
         .catch(error => console.error("There was an error fetching cart items:", error))
@@ -138,9 +228,8 @@ const attachAddToCartEventListeners = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname === '/templates/cart.html') {
+    if (window.location.pathname === '/cart.html') {
         loadCartItems();
-        attachCartEventListeners();
     }
 
     attachAddToCartEventListeners();
