@@ -76,6 +76,43 @@ const loadCartItems = () => {
             checkOut.classList.add("checkout-selected-items");
             checkOut.textContent = "Checkout";
             checkOut.addEventListener('click', () => {
+                const selectedCheckboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+                console.log("Total checkboxes:", document.querySelectorAll('input[name="selectedItems"]').length);
+                console.log("Checked checkboxes:", selectedCheckboxes.length);
+
+                let itemsToPay = [];
+                let totalSelectedAmount = 0;
+
+                selectedCheckboxes.forEach(checkbox => {
+                    console.log(checkbox.value);
+                    if (checkbox.value && checkbox.value !== 'undefined') {
+                        itemsToPay.push(checkbox.value);
+
+                        const itemDiv = checkbox.closest('div');
+                        const priceElement = itemDiv.querySelector('.price-total');
+                        const itemPrice = parseFloat(priceElement.textContent.replace('Price Total: $', ''));
+                        totalSelectedAmount += itemPrice;
+
+                    }
+                });
+
+                console.log("Items to pay:", itemsToPay)
+                if (itemsToPay.length === 0) {
+                    alert('Please select items to Checkout.');
+                    return;
+                }
+
+                // hide cart container
+                const cartHolder = document.getElementById('cart-items');
+                cartHolder.style.display = 'none';
+
+                // update total amount in checkout
+                const checkoutTotalAmount = document.getElementById('totalAmount');
+                checkoutTotalAmount.textContent = totalSelectedAmount.toFixed(2);
+
+                // show checkout form
+                const checkoutForm = document.querySelector('.checkout-form');
+                checkoutForm.style.display = 'block';
 
             })
             cartContainer.appendChild(checkOut);
