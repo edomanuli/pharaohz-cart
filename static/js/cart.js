@@ -227,7 +227,7 @@ const loadCartItems = () => {
 }
 
 
-
+// add products to cart on button click
 const addToCart = (productId, buttonEl) => {
     buttonEl.disabled = true;
 
@@ -251,6 +251,60 @@ const addToCart = (productId, buttonEl) => {
         })
         .catch(error => console.error('Error:', error))
 }
+
+
+// display the product details when the details button is clicked
+document.addEventListener('DOMContentLoaded', () => {
+    // dialog elements
+    const dialog = document.querySelector('.dialog-container dialog');
+    const image = dialog.querySelector('.product-image');
+    const title = dialog.querySelector('.dialog-body h3');
+    const price = dialog.querySelector('.dialog-body h4');
+    const stock = dialog.querySelector('.dialog-body p.stock');
+    const description = dialog.querySelector('.dialog-body p.description');
+
+    const detailsButton = document.querySelectorAll('.detailsButton');
+
+    detailsButton.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const productId = event.currentTarget.getAttribute('data-product-id');
+
+            fetchProduct(productId).then(product => {
+                image.src = product.thumbnail;
+                title.textContent = `Title: ${product.title}`;
+                price.textContent = `Price: $${product.price}`;
+                stock.textContent = `Quantity: ${product.stock_quantity}`;
+                description.textContent = `Product Description: ${product.title}`;
+
+                // show the dialog
+                dialog.showModal();
+            })
+
+
+        })
+    })
+
+    const fetchProduct = (productId) => {
+        return fetch(`/product_details/${productId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network error, please try again");
+                }
+                return response.json();
+            });
+    }
+
+    // close the dialog 
+    const buttonClose = dialog.querySelector('button[type="submit"]');
+    buttonClose.addEventListener('click', event => {
+        event.preventDefault();
+        dialog.close();
+    })
+})
+
+
 
 const attachAddToCartEventListeners = () => {
     const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');

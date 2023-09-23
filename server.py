@@ -166,6 +166,24 @@ def products():
     """Render products from the database"""
     all_products = Product.query.all()
     return render_template('products.html', title='Products', products=all_products)
+
+
+@app.route("/product_details/<int:product_id>", methods=['GET'])
+def product_details(product_id):
+    """Display product details"""
+    product = Product.query.get(product_id)
+    
+    if product:
+        return jsonify({
+            'id': product.id,
+            'title': product.title,
+            'description': product.description,
+            'price': product.price,
+            'stock_quantity': product.stock_quantity,
+            'thumbnail': product.thumbnail
+        })
+    return jsonify({'error': 'Product not found'}), 404
+           
             
 
 @app.route('/add-to-cart', methods=["POST"])
