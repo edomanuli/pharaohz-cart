@@ -27,19 +27,15 @@ const loadCartItems = () => {
             deleteAll.addEventListener('click', () => {
                 // query selected items
                 const allSelectedCheckboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
-                console.log("Total checkboxes:", document.querySelectorAll('input[name="selectedItems"]').length);
-                console.log("Checked checkboxes:", allSelectedCheckboxes.length);
 
                 let itemsToDelete = [];
 
                 allSelectedCheckboxes.forEach(checkbox => {
-                    console.log(checkbox.value);
                     if (checkbox.value && checkbox.value !== 'undefined') {
                         itemsToDelete.push(checkbox.value);
                     }
                 });
 
-                console.log("Items to delete:", itemsToDelete)
                 if (itemsToDelete.length === 0) {
                     alert('Please select items to delete.');
                     return;
@@ -77,14 +73,11 @@ const loadCartItems = () => {
             checkOut.textContent = "Checkout";
             checkOut.addEventListener('click', () => {
                 const selectedCheckboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
-                console.log("Total checkboxes:", document.querySelectorAll('input[name="selectedItems"]').length);
-                console.log("Checked checkboxes:", selectedCheckboxes.length);
 
                 let itemsToPay = [];
                 let totalSelectedAmount = 0;
 
                 selectedCheckboxes.forEach(checkbox => {
-                    console.log(checkbox.value);
                     if (checkbox.value && checkbox.value !== 'undefined') {
                         itemsToPay.push(checkbox.value);
 
@@ -96,7 +89,6 @@ const loadCartItems = () => {
                     }
                 });
 
-                console.log("Items to pay:", itemsToPay)
                 if (itemsToPay.length === 0) {
                     alert('Please select items to Checkout.');
                     return;
@@ -108,7 +100,7 @@ const loadCartItems = () => {
 
                 // update total amount in checkout
                 const checkoutTotalAmount = document.getElementById('totalAmount');
-                checkoutTotalAmount.textContent = totalSelectedAmount.toFixed(2);
+                checkoutTotalAmount.textContent = `Total Amount: $${totalSelectedAmount.toFixed(2)}`;
 
                 // show checkout form
                 const checkoutForm = document.querySelector('.checkout-form');
@@ -327,3 +319,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', loadCartItems);
+
+const checkoutBtn = () => {
+    const checkBtn = document.querySelector('input.checkout-btn');
+
+    checkBtn.addEventListener('submit', event => {
+        event.preventDefault();
+        alert('Uh Oh. Check Back again in the future.')
+    })
+}
