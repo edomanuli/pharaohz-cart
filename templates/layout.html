@@ -8,23 +8,16 @@
     {% else %}
         <title>Pharoahz Cart</title>
     {% endif %}
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+      rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
       crossorigin="anonymous"
-    />
+    >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-      crossorigin="anonymous" defer>
-    </script>
   </head>
   <body>
 
-      <header class="container-fluid">
+      <header class="container-fluid fixed-top">
         <nav class="navbar navbar-expand-lg">
           <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('home') }}">Pharoahz</a>
@@ -81,6 +74,7 @@
                 </button>
             </div>
         </nav>
+
       </header>
       
     <main class="container">
@@ -98,48 +92,52 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer>
-      <div class="layout-row">
-        <div class="layout-column">
-          <section class="newsletter">
-            <h2>Subscription or Newsletter Sign-Up</h2>
-            <p>If you'd like to receive our latest news and updates, please subscribe to our newsletter:</p>
-            <form action="subscribe.php" method="post">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <input type="submit" value="Subscribe">
-            </form>
-          </section>
-          <section class="contact-info">
-            <h2>Contact Information</h2>
-            <address>
-                <p>Pharoahz:</p>
-                <p>123 Alimony Street</p>
-                <p>Houston , TX, 77089</p>
-                <p>Phone: (832) 456-7890</p>
-                <p>Email: <a href="mailto:contact@example.com">customerservice@pharoahz.com</a></p>
-                <p>Fax: (123) 456-7891</p>
-            </address>
+    <footer class="ottom">
+      <div class="row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div>
+                <h3>Pharoahz</h3>
+                <p>
+                  Pharoahz is a small business that sells a variety of products
+                  from clothing to accessories.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="layout-column">
-          <ul class="pages-nav">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#terms">Terms of Service</a></li>
-        </ul>
-        <div class="social-icons">
-          <a href="#" class="fa fa-facebook"></a>
-          <a href="#" class="fa fa-twitter"></a>
-          <a href="#" class="fa fa-instagram"></a>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body custom-card-body">
+              <div>
+                <ul class="pages-nav">
+                  <li><a href="{{ url_for('home') }}">Home</a></li>
+                  <li><a href="#about">About Us</a></li>
+                  <li><a href="#contact">Contact Us</a></li>
+                  <li><a href="#privacy">Privacy Policy</a></li>
+                  <li><a href="#terms">Terms of Service</a></li>
+              </ul>
+              <div class="social-icons">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-twitter"></a>
+                <a href="#" class="fa fa-instagram"></a>
+              </div>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
+      </div>
+      <div class="text-center">
         <p id="copyright">
           Copyright &copy; 2023 Pharoahz. All rights reserved.
         </p>
       </div>
     </footer>
     <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+      crossorigin="anonymous">
+    </script>
   </body>
 </html>

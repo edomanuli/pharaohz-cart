@@ -2,7 +2,7 @@ const loadCartItems = () => {
     fetch(cartApiUrl)
         .then(response => response.json())
         .then(data => {
-            const cartContainer = document.querySelector('#cart-items');
+            const cartContainer = document.querySelector('#cart-products');
 
             if (data.message && data.message === "Your cart is empty.") {
                 cartContainer.innerHTML = "<p>Your cart item is empty.</p>";
@@ -16,10 +16,13 @@ const loadCartItems = () => {
             selectCheckbox.setAttribute("value", "select-all-checkbox");
             cartContainer.appendChild(selectCheckbox);
 
+
             const selectCheckboxLabel = document.createElement("label");
             selectCheckboxLabel.setAttribute("for", "select-all");
             selectCheckboxLabel.textContent = "Select All";
             cartContainer.appendChild(selectCheckboxLabel);
+
+            selectCheckboxLabel.classList.add("select-all-label")
 
             const deleteAll = document.createElement("button");
             deleteAll.classList.add("delete-selected-items");
@@ -56,7 +59,9 @@ const loadCartItems = () => {
                                 // remove the container for the deleted items
                                 const removeElement = checkbox.closest('div');
                                 cartContainer.removeChild(removeElement);
-                                // TODO: clear out the total value in the cart
+                                
+                                const totalPrice = document.getElementById('cart-total-price');
+                                totalPrice.textContent = "Total: $0.00";
                             });
                             alert(data.message);
                         } else {
@@ -83,7 +88,7 @@ const loadCartItems = () => {
 
                         const itemDiv = checkbox.closest('div');
                         const priceElement = itemDiv.querySelector('.price-total');
-                        const itemPrice = parseFloat(priceElement.textContent.replace('Price Total: $', ''));
+                        const itemPrice = parseFloat(priceElement.textContent.replace('Price: $', ''));
                         totalSelectedAmount += itemPrice;
 
                     }
@@ -95,7 +100,7 @@ const loadCartItems = () => {
                 }
 
                 // hide cart container
-                const cartHolder = document.getElementById('cart-items');
+                const cartHolder = document.getElementById('cart-products');
                 cartHolder.style.display = 'none';
 
                 // update total amount in checkout
@@ -126,35 +131,24 @@ const loadCartItems = () => {
                 const allPrices = document.querySelectorAll('p.price-total'); // Using class for item totals
                 total = 0;
                 allPrices.forEach(priceElement => {
-                    total += parseFloat(priceElement.textContent.replace('Price Total: $', ''));
+                    total += parseFloat(priceElement.textContent.replace('Price: $', ''));
                 });
-                totalPrice.textContent = "Cart Total: $" + total.toFixed(2);
+                totalPrice.textContent = "Total: $" + total.toFixed(2);
             }
 
-            // const cartTotal = () => {
-            //     const cartPrice = document.querySelectorAll('p.cart-total-price'); // Using class for item totals
-            //     total = 0;
-            //     cartPrice.forEach(priceElement => {
-            //         total += parseFloat(priceElement.textContent.replace('Cart Total: $', ''));
-            //     });
-            //     totalPrice.textContent = "Cart Total: $" + total.toFixed(2);
-            // }
 
             data.forEach(item => {
                 // create a div for each item
                 const itemDiv = document.createElement('div');
+                itemDiv.classList.add("product-card", "container");
                 // itemDiv.classList.add("col");
 
                 const checkbox = document.createElement("input");
                 checkbox.setAttribute("type", "checkbox");
                 checkbox.setAttribute("name", "selectedItems");
                 checkbox.setAttribute("value", item.product_id);
-
                 itemDiv.appendChild(checkbox);
 
-                const title = document.createElement("h4");
-                title.textContent = item.product.title;
-                itemDiv.appendChild(title);
 
                 const image = document.createElement("img");
                 image.setAttribute("src", item.product.thumbnail);
@@ -162,15 +156,22 @@ const loadCartItems = () => {
                 image.setAttribute("width", "250");
                 itemDiv.appendChild(image)
 
+                const title = document.createElement("h3");
+                title.textContent = item.product.title;
+                itemDiv.appendChild(title);
+
                 const quantity = document.createElement("p");
                 let itemQuantity = item.quantity;
                 quantity.textContent = "Quantity: " + itemQuantity;
                 itemDiv.appendChild(quantity);
 
+                // how to remove the item from cartContainer when quantity is 0
+                
+
                 const price = document.createElement("p");
                 price.classList.add('price-total')
                 let itemTotalPrice = item.product.price * itemQuantity;
-                price.textContent = "Price Total: $" + itemTotalPrice.toFixed(2);
+                price.textContent = "Price: $" + itemTotalPrice.toFixed(2);
                 itemDiv.appendChild(price);
 
                 const increment = document.createElement("button");
@@ -180,7 +181,7 @@ const loadCartItems = () => {
                     itemQuantity++;
                     quantity.textContent = "Quantity: " + itemQuantity;
                     itemTotalPrice = item.product.price * itemQuantity;
-                    price.textContent = "Price Total: $" + itemTotalPrice.toFixed(2);
+                    price.textContent = "Price: $" + itemTotalPrice.toFixed(2);
 
                     updateTotal();
                 })
@@ -194,9 +195,13 @@ const loadCartItems = () => {
                         itemQuantity--;
                         quantity.textContent = "Quantity: " + itemQuantity;
                         itemTotalPrice = item.product.price * itemQuantity;
-                        price.textContent = "Price Total: $" + itemTotalPrice;
+                        price.textContent = "Price: $" + itemTotalPrice;
 
                         updateTotal();
+                    } else if (itemQuantity <= 0) {
+                        // remove the item from cartContainer
+                        const removeElement = decrement.closest('div');
+                        cartContainer.removeChild(removeElement);
                     }
                 })
                 itemDiv.appendChild(decrement);
@@ -208,7 +213,7 @@ const loadCartItems = () => {
 
             const totalPrice = document.createElement('p')
             totalPrice.setAttribute("id", "cart-total-price");
-            totalPrice.textContent = "Cart Total: $" + total.toFixed(2);
+            totalPrice.textContent = "Total: $" + total.toFixed(2);
             cartContainer.appendChild(totalPrice);
 
             updateTotal();
@@ -303,6 +308,7 @@ const attachAddToCartEventListeners = () => {
 
     addToCartBtns.forEach(button => {
         button.addEventListener('click', (event) => {
+            event.preventDefault();
             const productId = parseInt(event.currentTarget.getAttribute('data-product-id'));
 
             addToCart(productId, event.currentTarget);
@@ -320,11 +326,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', loadCartItems);
 
-const checkoutBtn = () => {
-    const checkBtn = document.querySelector('input.checkout-btn');
-
-    checkBtn.addEventListener('submit', event => {
-        event.preventDefault();
-        alert('Uh Oh. Check Back again in the future.')
-    })
-}

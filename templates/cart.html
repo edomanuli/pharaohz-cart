@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="row mt-5" id="cart-items">
+<h2>Your Shopping Cart</h2>
+<div class="cart-container row mt-5" id="cart-products">
         
 </div>
 
@@ -68,7 +69,7 @@
             <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
             </label>
             <p id="totalAmount">Total: </p>
-            <input type="submit" value="Continue to checkout" class="btn checkout-btn">
+            <input type="submit" value="Continue to checkout" class="btn checkout-btn" id="checkout-button">
         </form>
         </div>
     </div>
