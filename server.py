@@ -12,7 +12,7 @@ from models import db, User, Product, Cart, CartItem, Order, connect_to_db
 
 
 app = Flask(__name__)
-app.secret_key = '36611c84dffb8c4d1dbd2d642025ba70'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -115,7 +115,7 @@ def account():
 @app.route('/update_products_from_api', methods=['GET'])
 def update_products_from_api():
     """Saving the products from the API unto the database"""
-    url = "https://dummyjson.com/products"
+    url = "https://dummyjson.com/products?limit=100"
     response = requests.get(url)
     
     if response.status_code == 200:
