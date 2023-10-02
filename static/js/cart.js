@@ -26,7 +26,7 @@ const loadCartItems = () => {
 
             const deleteAll = document.createElement("button");
             deleteAll.classList.add("delete-selected-items");
-            deleteAll.textContent = "Delete All";
+            deleteAll.textContent = "Delete";
             deleteAll.addEventListener('click', () => {
                 // query selected items
                 const allSelectedCheckboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
@@ -276,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 description.textContent = `Product Description: ${product.title}`;
 
                 // show the dialog
+                document.querySelector('.dialog-container').classList.add('active');
                 dialog.showModal();
             })
 
@@ -297,6 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonClose = dialog.querySelector('button[type="submit"]');
     buttonClose.addEventListener('click', event => {
         event.preventDefault();
+        document.querySelector('.dialog-container').classList.remove('active');
         dialog.close();
     })
 })

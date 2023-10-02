@@ -68,8 +68,12 @@
                 </ul>
                 
               </form>
-              <a class="navbar-brand me-2" href="{{ url_for('cart_page') }}" id="Shopping"><i style="font-size:24px" class="fa">&#xf07a;</i></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <a class="navbar-brand me-2" href="{{ url_for('cart_page') }}" id="Shopping">
+                <i style="font-size:24px" class="fa">&#xf07a;</i>
+              </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                  data-bs-target="#navbarText" aria-controls="navbarText" 
+                  aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
@@ -89,7 +93,7 @@
           {% endif %}
         {% endwith %}
       </div>
-        {% block content %}{% endblock %}
+        {% block content %}{% endblock content %}
     </main>
 
     <footer class="ottom">
