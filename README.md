@@ -66,6 +66,8 @@ Install dependencies
 Start the server
 
 ```bash
+  source secrets.sh
+  
   python3 server.py
 ```
 
