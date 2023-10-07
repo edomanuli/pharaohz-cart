@@ -63,11 +63,15 @@ Install dependencies
   pip install -r requirements.txt
 ```
 
+Set environment variables from a shell script
+
+```
+  source secrets.sh
+```
+
 Start the server
 
 ```bash
-  source secrets.sh
-  
   python3 server.py
 ```
 
