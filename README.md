@@ -54,19 +54,13 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd shopping-cart-project
+  cd pharaohz-cart
 ```
 
 Install dependencies
 
 ```bash
   pip install -r requirements.txt
-```
-
-Set environment variables from a shell script
-
-```
-  source secrets.sh
 ```
 
 Start the server

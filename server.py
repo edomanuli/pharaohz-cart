@@ -12,7 +12,7 @@ from models import db, User, Product, Cart, CartItem, Order, connect_to_db
 
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY')
+app.secret_key = os.environ.get('SECRET_KEY', 'Can I get Access?')
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
