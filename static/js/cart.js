@@ -156,13 +156,13 @@ const loadCartItems = () => {
                 image.setAttribute("width", "250");
                 itemDiv.appendChild(image)
 
-                const title = document.createElement("h3");
+                const title = document.createElement("h4");
                 title.textContent = item.product.title;
                 itemDiv.appendChild(title);
 
                 const quantity = document.createElement("p");
                 let itemQuantity = item.quantity;
-                quantity.textContent = "Quantity: " + itemQuantity;
+                quantity.textContent = "Qty: " + itemQuantity;
                 itemDiv.appendChild(quantity);
 
                 // how to remove the item from cartContainer when quantity is 0
@@ -179,7 +179,7 @@ const loadCartItems = () => {
                 increment.textContent = "+";
                 increment.addEventListener('click', () => {
                     itemQuantity++;
-                    quantity.textContent = "Quantity: " + itemQuantity;
+                    quantity.textContent = "Qty: " + itemQuantity;
                     itemTotalPrice = item.product.price * itemQuantity;
                     price.textContent = "Price: $" + itemTotalPrice.toFixed(2);
 
@@ -193,7 +193,7 @@ const loadCartItems = () => {
                 decrement.addEventListener('click', () => {
                     if (itemQuantity > 0) {
                         itemQuantity--;
-                        quantity.textContent = "Quantity: " + itemQuantity;
+                        quantity.textContent = "Qty: " + itemQuantity;
                         itemTotalPrice = item.product.price * itemQuantity;
                         price.textContent = "Price: $" + itemTotalPrice;
 

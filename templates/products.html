@@ -2,13 +2,13 @@
 
 
 {% block content %}
-    <h1>Welcome To Pharoahz</h1>
+    
     <div class="container product-list">
         {% if products %}
-            <div class="row justify-content-center align-items-center g-2">
+            <div class="row justify-content-center align-items-center g-3">
                 {% for product in products %}
                     <div class="col-md-3 card-template">
-                        <div class="card mb-4" style="width: 18rem;">
+                        <div class="card mb-4">
                             <img src="{{ product.thumbnail }}" class="card-img-top product-image" alt="{{ product.title }}">
                             <div class="card-body">
                                 <h5 class="card-title product-name">{{ product.title }}</h5>
