@@ -1,19 +1,80 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="main-home">
-    <div class="home-row">
-      <div class="column-66">
-        <h1>Welcome To Pharoahz</h1>
-        <h4>Find everything you need in one store</h4>
-        <p>Shop for the best deals on electronics, fashion, home appliances, kids items and more</p>
-        <img src="static/images/people-2594683_1280.jpg" alt="">
-        <button type="button" class="button1">GET STARTED</button>
+
+<div class="container text-center">
+  <div class="row">
+    <div class="col">
+      <img
+        src="static/images/Store-banner.png"
+        alt="Store banner"
+        class="img-fluid"
+      />
+      <div class="container text-center">
+        <div class="col-6 mx-auto text-center text-wrap">
+          <p class="layout-p m-5">
+            Explore a world of top-tier gadgets, trendy apparel, and beauty essentials, 
+            all curated from trusted global sources. Swift delivery and a satisfaction 
+            guarantee on every treasure you find!
+          </p>
+        </div>
       </div>
-      <div class="column-33">
-        <video src="static/images/coverr-women-with-christmas-gift-bags-5988-1080p.mp4" class="object-fit-contain" autoplay></video>
-        <button type="button" class="button1">SHOP NOW</button>
+      <div class="container text-center">
+        <div class="row align-items-start pt-5">
+          <div class="col-md-4">
+            <h5>🌟 Highly Rated</h5>
+            <p>
+              Don't just take our word for it. Explore the rave reviews 
+              and accolades our diverse range of products have received.
+            </p>
+          </div>
+          <div class="col">
+            <h5>🌐 Vast Array of Choices</h5>
+            <p>
+              From tech gadgets and trendy apparel to beauty essentials, 
+              our global assortment ensures we cater to every taste and need.
+            </p>
+          </div>
+          <div class="col">
+            <h5>☀️ Ethically Sourced</h5>
+            <p>
+              Our diverse products are curated from sustainable and responsible sources, 
+              ensuring a positive impact with every purchase you make.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container text-center m-5">
+      <div class="row align-items-start pt-5">
+        <div class="col review">
+          <h5>Product: Sleek Smartphone</h5>
+          <p class="layout-p">Rating: <span>★★★★★</span></p>
+          <p><strong>Review: </strong>The Sleek Smartphone is a game changer! The battery life is phenomenal and the camera quality is unmatched. Highly recommend!</p>
+      </div>
+      
+      <div class="col review">
+          <h5>Product: Cutting-edge Laptop</h5>
+          <p class="layout-p">Rating: <span>★★★★☆</span></p>
+          <p><strong>Review: </strong>This laptop is incredibly fast and lightweight. It handles all my work tasks and gaming needs effortlessly.</p>
+      </div>
+      
+      <div class="col review">
+          <h5>Product: Chic Summer Dress</h5>
+          <p class="layout-p">Rating: <span>★★★★★</span></p>
+          <p><strong>Review: </strong>Absolutely adore this dress! The fabric is soft and breathable, making it a summer staple.</p>
+      </div>
+      
+      <div class="col review">
+          <h5>Product: Radiant Beauty Serum</h5>
+          <p class="layout-p">Rating: <span>★★★★★</span></p>
+          <p><strong>Review: </strong>The Radiant Beauty Serum worked wonders on my skin. My complexion looks radiant and feels smooth. Will definitely repurchase!</p>
+      </div>
+      
       </div>
     </div>
   </div>
+  </div>
+</div>
+
 {% endblock content %}

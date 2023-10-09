@@ -3,10 +3,10 @@
 
 {% block content %}
     
-    <div class="container product-list">
+    <div class="container product-list pt-5">
         {% if products %}
             <div class="row justify-content-center align-items-center g-3">
-                {% for product in products %}
+                {% for product in products.items %}
                     <div class="col-md-3 card-template">
                         <div class="card mb-4">
                             <img src="{{ product.thumbnail }}" class="card-img-top product-image" alt="{{ product.title }}">
@@ -40,6 +40,19 @@
             </form>
         </dialog>
     </div>
+
+    <div class="container">
+        {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if products.page == page_num %}
+                    <a class="btn btn-secondary mb-4" href="{{ url_for('products', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-secondary mb-4" href="{{ url_for('products', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </div>
     
 {% endblock content %}
-

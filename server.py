@@ -12,7 +12,7 @@ from models import db, User, Product, Cart, CartItem, Order, connect_to_db
 
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'Can I get Access?')
+app.secret_key = os.environ.get('SECRET_KEY')
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -165,7 +165,8 @@ def get_local_products():
 @app.route('/products')
 def products():
     """Render products from the database"""
-    all_products = Product.query.all()
+    page = request.args.get('page', 1, type=int)
+    all_products = Product.query.paginate(page=page, per_page=20)
     return render_template('products.html', title='Products', products=all_products)
 
 

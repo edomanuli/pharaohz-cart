@@ -17,10 +17,10 @@
   </head>
   <body>
 
-      <header class="container-fluid fixed-top">
+      <header class="fixed-top">
         <nav class="navbar navbar-expand-lg">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('home') }}">Pharoahz</a>
+          <div class="container">
+            <a class="navbar-brand brand-name" href="{{ url_for('home') }}">PharoahZ</a>
             <button
               class="navbar-toggler"
               type="button"
@@ -40,7 +40,7 @@
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('products') }}">Products</a>
+                  <a class="nav-link" href="{{ url_for('products') }}">Shop</a>
                 </li>
                 <li class="nav-item">
                   {% if current_user.is_authenticated %}
@@ -69,7 +69,7 @@
                 
               </form>
               <a class="navbar-brand me-2" href="{{ url_for('cart_page') }}" id="Shopping">
-                <i style="font-size:24px" class="fa">&#xf07a;</i>
+                <i style="font-size:30px" class="fa">&#xf07a;</i>
               </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                   data-bs-target="#navbarText" aria-controls="navbarText" 
@@ -98,7 +98,7 @@
       
       <footer>
         <hr>
-        <div class="container-fluid text-center footer-container">
+        <div class="container text-center footer-container">
           <div class="row">
             <div class="col footer-columns">
               <h4>NEWSLETTER SUBSCRIPTION</h3>
@@ -111,9 +111,9 @@
             </div>
             <div class="col footer-columns">
               <p>MENU</p>
-              <ul class="pages-nav">
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#contact">Contact Us</a></li>
+              <ul class="pages-nav d-flex flex-wrap justify-content-evenly">
+                <li><a href="#about" class="p-2">About</a></li>
+                <li><a href="#contact">Contact</a></li>
                 <li><a href="#privacy">Privacy Policy</a></li>
                 <li><a href="#terms">Terms of Service</a></li>
             </ul>
@@ -129,6 +129,9 @@
           </div>
         </div>
       </footer>
+      <div class="copyright text-center p-2">
+        &copy; 2023 PharaohZ. All rights reserved.
+    </div>
     </div>
     <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 

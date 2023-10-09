@@ -12,20 +12,24 @@ const loadCartItems = () => {
             const selectCheckbox = document.createElement("input");
             selectCheckbox.setAttribute("type", "checkbox");
             selectCheckbox.setAttribute("id", "select-all");
+            selectCheckbox.classList.add("sticky-container")
             selectCheckbox.setAttribute("name", "select-all");
             selectCheckbox.setAttribute("value", "select-all-checkbox");
             cartContainer.appendChild(selectCheckbox);
 
+            
+
 
             const selectCheckboxLabel = document.createElement("label");
             selectCheckboxLabel.setAttribute("for", "select-all");
-            selectCheckboxLabel.textContent = "Select All";
+            selectCheckboxLabel.classList.add("select-all-label", "sticky-container")
+            selectCheckboxLabel.textContent = "Select";
             cartContainer.appendChild(selectCheckboxLabel);
 
-            selectCheckboxLabel.classList.add("select-all-label")
+            
 
             const deleteAll = document.createElement("button");
-            deleteAll.classList.add("delete-selected-items");
+            deleteAll.classList.add("delete-selected-items", "sticky-container");
             deleteAll.textContent = "Delete";
             deleteAll.addEventListener('click', () => {
                 // query selected items
@@ -61,7 +65,8 @@ const loadCartItems = () => {
                                 cartContainer.removeChild(removeElement);
                                 
                                 const totalPrice = document.getElementById('cart-total-price');
-                                totalPrice.textContent = "Total: $0.00";
+                                location.reload()
+                                totalPrice.textContent = "Total: " + total.toFixed(2);
                             });
                             alert(data.message);
                         } else {
@@ -74,7 +79,7 @@ const loadCartItems = () => {
             cartContainer.appendChild(deleteAll);
 
             const checkOut = document.createElement("button");
-            checkOut.classList.add("checkout-selected-items");
+            checkOut.classList.add("checkout-selected-items", "sticky-container");
             checkOut.textContent = "Checkout";
             checkOut.addEventListener('click', () => {
                 const selectedCheckboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
@@ -153,7 +158,7 @@ const loadCartItems = () => {
                 const image = document.createElement("img");
                 image.setAttribute("src", item.product.thumbnail);
                 image.setAttribute("alt", item.product.title);
-                image.setAttribute("width", "250");
+                image.setAttribute("width", "150");
                 itemDiv.appendChild(image)
 
                 const title = document.createElement("h4");
@@ -175,7 +180,7 @@ const loadCartItems = () => {
                 itemDiv.appendChild(price);
 
                 const increment = document.createElement("button");
-                increment.classList.add("increase")
+                increment.classList.add("increase", "d-flex", "flex-wrap", "justify-content-evenly")
                 increment.textContent = "+";
                 increment.addEventListener('click', () => {
                     itemQuantity++;
@@ -188,7 +193,7 @@ const loadCartItems = () => {
                 itemDiv.appendChild(increment);
 
                 const decrement = document.createElement("button");
-                decrement.classList.add("decrease")
+                decrement.classList.add("decrease", "d-flex", "flex-wrap", "justify-content-evenly")
                 decrement.textContent = "-";
                 decrement.addEventListener('click', () => {
                     if (itemQuantity > 0) {
