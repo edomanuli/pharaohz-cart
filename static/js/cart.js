@@ -158,7 +158,8 @@ const loadCartItems = () => {
                 const image = document.createElement("img");
                 image.setAttribute("src", item.product.thumbnail);
                 image.setAttribute("alt", item.product.title);
-                image.setAttribute("width", "150");
+                image.setAttribute("width", "175");
+                image.setAttribute("height", "150");
                 itemDiv.appendChild(image)
 
                 const title = document.createElement("h4");
