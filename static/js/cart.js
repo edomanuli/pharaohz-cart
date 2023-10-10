@@ -331,5 +331,12 @@ document.addEventListener('DOMContentLoaded', () => {
     attachAddToCartEventListeners();
 });
 
+const checkoutBtn = document.querySelector('.checkout-btn');
+
+checkoutBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    alert("Uh oh, unfortunately we can't process payments right now!")
+})
+
 document.addEventListener('DOMContentLoaded', loadCartItems);
 
