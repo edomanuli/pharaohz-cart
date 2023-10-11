@@ -1,5 +1,5 @@
 
-# Pharoahz-Cart
+# Pharaohz-Cart
 
 The shopping cart project is designed to provide a convenient and user-friendly online shopping experience for a wide range of customers. This platform allows users to browse a catalog of products, select items of interest, and then manage their selections within a virtual shopping cart. Here's a brief description of what the project does and who it's for:
 
