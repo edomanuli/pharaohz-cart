@@ -13,7 +13,8 @@ from models import db, User, Product, Cart, CartItem, Order, connect_to_db
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///cart')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///cart')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://zuotjqxoixykcb:eac00d4ba5a988c3f83ccefb399191d42dbebc88a740c7a19aceb24370d202a7@ec2-34-236-199-229.compute-1.amazonaws.com:5432/da2s4qu5qre5fs'
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
