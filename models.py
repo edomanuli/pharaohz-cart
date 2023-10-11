@@ -101,7 +101,7 @@ class Order(db.Model):
 
 def connect_to_db(app):
     """Creating the postgres database"""
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cart'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cart'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = True
 

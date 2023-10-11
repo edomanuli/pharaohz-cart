@@ -23,7 +23,7 @@ const loadCartItems = () => {
             const selectCheckboxLabel = document.createElement("label");
             selectCheckboxLabel.setAttribute("for", "select-all");
             selectCheckboxLabel.classList.add("select-all-label", "sticky-container")
-            selectCheckboxLabel.textContent = "Select";
+            selectCheckboxLabel.textContent = "Select All";
             cartContainer.appendChild(selectCheckboxLabel);
 
             
