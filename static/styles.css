@@ -119,10 +119,10 @@ h1, h2 {
 
 .btn-primary {
     background-color: #407088;
-    border-radius: 16px;
+    border-radius: 8px;
     margin: 5px;
     padding: 5px;
-    width: 120px;
+    width: 125px;
     text-align: center;
     border: none;
 }
