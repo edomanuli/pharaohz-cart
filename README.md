@@ -1,5 +1,5 @@
 
-# Pharaohz-Cart
+# Pharoahz-Cart
 
 The shopping cart project is designed to provide a convenient and user-friendly online shopping experience for a wide range of customers. This platform allows users to browse a catalog of products, select items of interest, and then manage their selections within a virtual shopping cart. Here's a brief description of what the project does and who it's for:
 
@@ -96,7 +96,16 @@ This application uses a PostgreSQL database. To set up the database on your loca
 
 ```bash
     export DATABASE_URL='postgresql:///cart'
+
 ```
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`SECRET_KEY`
+
+`DATABASE_URL`
+
 
 - You can add the above line to your ~/.bash_profile or ~/.bashrc file to set the DATABASE_URL environment variable automatically in every new terminal session. 
 - For example:
@@ -114,4 +123,24 @@ This application uses a PostgreSQL database. To set up the database on your loca
 ```bash
   python3 server.py
 ```
+
+
+### Usage Instructions
+
+Follow these steps to load database items:
+
+1. **Installation**: Ensure you have completed the installation process and have the database running and the server started.
+
+2. **Access the Update Route**: Open your web browser or a tool like [curl](https://curl.se/) and enter the following URL:
+
+    http://your-server-address/update_products_from_api
+
+
+Replace `your-server-address` with the actual address or localhost if applicable.
+
+3. **Execute the Route**: Press Enter or hit the "Send" button if you're using a tool like curl. The server will process the request to update the database items.
+
+4. **Check the Database**: After executing the route, you can check your database to confirm that the items have been updated.
+
+That's it! You have successfully updated your database items.
 
