@@ -1,6 +1,8 @@
 
 # Pharoahz-Cart
 
+[![Website](https://img.shields.io/website?up_message=online&url=http://pharaohz.net/)](http://pharaohz.net/)
+
 The shopping cart project is designed to provide a convenient and user-friendly online shopping experience for a wide range of customers. This platform allows users to browse a catalog of products, select items of interest, and then manage their selections within a virtual shopping cart. Here's a brief description of what the project does and who it's for:
 
 **Project Description:**
