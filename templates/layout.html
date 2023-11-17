@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
   </head>
-  <body>
+  <body class="p-3 m-0 border-0 bd-example m-0 border-0">
 
       <header class="fixed-top">
         <nav class="navbar navbar-expand-lg">
@@ -58,7 +58,6 @@
                 </li>
                 
               </ul>
-              <form class="d-flex me-3" role="search">
                 <ul class="navbar-nav">
                   <li class="nav-item">
                     {% if current_user.is_authenticated %}
@@ -67,8 +66,7 @@
                   </li>
                 </ul>
                 
-              </form>
-              <a class="navbar-brand me-2" href="{{ url_for('cart_page') }}" id="Shopping">
+              <a class="me-2" href="{{ url_for('cart_page') }}" id="Shopping">
                 <i style="font-size:30px" class="fa">&#xf07a;</i>
               </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
@@ -96,11 +94,11 @@
           {% block content %}{% endblock content %}
       </main>
       
-      <footer>
-        <hr>
-        <div class="container text-center footer-container">
+      <footer class="container justify-content-center text-center">
+        
+        <div class="text-center footer-container">
           <div class="row">
-            <div class="col footer-columns">
+            <div class="col-4 footer-columns">
               <h4>NEWSLETTER SUBSCRIPTION</h3>
               <p>Stay updated with our latest news and offers. <br>
                   Subscribe to our newsletter:</p>
@@ -109,7 +107,7 @@
                   <button class="btn btn-primary" type="submit">Subscribe</button>
               </form>
             </div>
-            <div class="col footer-columns">
+            <div class="col-12 col-4 footer-columns">
               <p>MENU</p>
               <ul class="pages-nav d-flex flex-wrap justify-content-evenly">
                 <li><a href="#about" class="p-2">About</a></li>
@@ -118,7 +116,7 @@
                 <li><a href="#terms">Terms of Service</a></li>
             </ul>
             </div>
-            <div class="col footer-columns">
+            <div class="col-4 footer-columns">
               <p>FOLLOW US</p>
               <div class="social-icons">
                 <a href="#" class="fa fa-facebook"></a>
@@ -127,11 +125,13 @@
               </div>
             </div>
           </div>
+          <div class="copyright text-center p-2">
+            &copy; 2023 PharaohZ. All rights reserved.
+          </div>
         </div>
+        
       </footer>
-      <div class="copyright text-center p-2">
-        &copy; 2023 PharaohZ. All rights reserved.
-    </div>
+      
     </div>
     <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
